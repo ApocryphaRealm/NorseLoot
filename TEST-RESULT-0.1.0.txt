@@ -1,0 +1,8 @@
+Reason: NorseLoot 0.1.0 changed a travelling merchant's stock through a nested list path - one item added, one removed, one already-stocked add skipped - and running it again changed nothing.
+Batch B-20261117-232915-3b6a, 2026-11-17 23:30-23:38 (Main Agent). Two launches.
+- nl.dump Merchant_Profile_Boat_01: a TravellerProfile; its stock is in the sub-object :TraderProfile_0 - Tiers[0].ItemPools[0].Items, 8 entries (bandage, net, spear, two bows, boots, bandage x5, 2H axe).
+- Rule [TraderProfile] List = Tiers[*].ItemPools[*].Items, filtered by folder Merchant_Profile_Boat_01: "TraderProfile_0 Tiers[0].ItemPools[0].Items: +tier1_common_axe_01 -Utility_Tier2_Net(x1) (8 -> 8 entries)"; the bandage add skipped (already stocked); "1 list(s) changed of 35 looked at" (every loaded trader's lists). nl.apply again: 0 changed. A fresh dump: the axe with SuperiorChance=10, MaxQuantity=2, no net.
+- Found: a sub-object's short name kept "Asset:" in front, and the dump file name with a colon went into an NTFS alternate stream. NorseReflect's ShortName now splits at ':' too (every framework using it rebuilt); NorseDevTools now watches the loot folder.
+- Launch 2: the test rule copied into the game folder -> "auto reload: NorseLoot rules changed -> nl.reload run" -> the same change; the dump written as TraderProfile_0.txt.
+- New in the shared code (NorsePatcher/include): ResolveArrays (paths like Tiers[*].ItemPools[*].Items through structs and lists), ListElements; FArrayProperty::GetInner and FStructProperty::GetStruct declared.
+- Not exercised: spawn-point loot (LootItems) and mission rewards (where Norse keeps them is still to find).
