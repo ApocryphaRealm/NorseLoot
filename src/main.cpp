@@ -163,6 +163,9 @@ namespace
                     {
                         std::wstring key = KeyOf(e.value);
                         if (std::any_of(els.begin(), els.end(), [&](const std::wstring& x) { return Lower(x).find(key) != std::wstring::npos; })) continue;
+                        // keep the added item loaded: the list's owner may be a start-up asset whose references do not
+                        // keep it alive (NorseSound 0.1.0 found that with a swapped-in sound)
+                        if (key.rfind(L"/", 0) == 0) LoadKept(key.c_str());
                         els.push_back(e.value);
                         done += " +" + Narrow(ShortName(key));
                     }
