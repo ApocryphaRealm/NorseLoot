@@ -192,6 +192,7 @@ namespace
                     continue;
                 }
                 ++changed;
+                RecordWrite(obj, arr.prop, arr.addr, text, name + L" " + Widen(arr.label));
                 NRN_INFO("%s %s:%s (%zu -> %zu entries)", Narrow(name).c_str(), arr.label.c_str(), done.c_str(), start, now);
             }
         }
@@ -306,6 +307,7 @@ class NorseLoot : public RC::CppUserModBase
             RC::Unreal::Hook::RegisterInitGameStatePostCallback([](RC::Unreal::AGameModeBase*) {
                 try
                 {
+                    RecheckWrites("map load"); // before the pass: it exports first, and a freed pointer would fault
                     ApplyAll("map load");
                 }
                 catch (...)
