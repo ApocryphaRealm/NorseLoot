@@ -25,3 +25,7 @@ NorseDevTools reloads the rules when a file in `loot\` is saved.
 
 0.1.0 tested in game (TEST-RESULT-0.1.0.txt). Not yet: mission rewards (where Norse keeps them is still to find),
 spawn-point loot in game.
+
+## Licence
+
+GPL-3.0-or-later (see LICENSE).
